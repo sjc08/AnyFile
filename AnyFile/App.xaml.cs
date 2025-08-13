@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Data;
+﻿using Asjc.SingletonApp;
 using System.Windows;
 
 namespace AnyFile
@@ -9,6 +8,13 @@ namespace AnyFile
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            if (!SingletonApp.IsNew)
+                Shutdown();
+
+            base.OnStartup(e);
+        }
     }
 
 }
