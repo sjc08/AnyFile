@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:AnyFile.Views"
         xmlns:converters="clr-namespace:AnyFile.Converters"
@@ -21,6 +22,7 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <converters:EnumToDisplayNameConverter x:Key="EnumToDisplayNameConverter" />
+        <converters:PathToThumbnailConverter x:Key="PathToThumbnailConverter" />
     </Window.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
@@ -76,10 +78,22 @@
                                     </ItemsPanelTemplate>
                                 </Setter.Value>
                             </Setter>
+                            <Setter Property="ItemContainerStyle">
+                                <Setter.Value>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Margin" Value="5" />
+                                    </Style>
+                                </Setter.Value>
+                            </Setter>
                             <Setter Property="ItemTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Name}" />
+                                        <StackPanel Width="100" ToolTip="{Binding Name}">
+                                            <Image Height="100" Source="{Binding FullName, Converter={StaticResource PathToThumbnailConverter}}" />
+                                            <hc:RunningBlock MaxHeight="30" BorderThickness="0" Padding="0" Orientation="Vertical" Runaway="False">
+                                                <TextBlock Text="{Binding Name}" TextWrapping="Wrap" TextAlignment="Center" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=hc:RunningBlock}}" />
+                                            </hc:RunningBlock>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </Setter.Value>
                             </Setter>
